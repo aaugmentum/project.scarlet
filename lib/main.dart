@@ -49,6 +49,9 @@ class _HomePageState extends State<HomePage> {
               child: Text('GetClient'),
               onPressed: () async {
                 int client = await create();
+
+                await destroy(client: client);
+
                 setState(() {
                  _client = client.toString(); 
                 });

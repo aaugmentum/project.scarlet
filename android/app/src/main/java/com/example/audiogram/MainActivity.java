@@ -11,7 +11,6 @@ import io.flutter.plugins.GeneratedPluginRegistrant;
 
 public class MainActivity extends FlutterActivity {
   private static final String CHANNEL = "tdjsonlib";
-  private long client = 0;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -20,33 +19,33 @@ public class MainActivity extends FlutterActivity {
     MethodChannel mC = new MethodChannel(getFlutterView(), CHANNEL);
     mC.setMethodCallHandler((call, result) -> {
         Log.i("Method", call.method);
-
-        if (call.method.equals("create")) {
-            client = JsonClient.create();
-            Log.i("Client", String.valueOf(client));
-            result.success(client);
-        } else {
-            String response;
-            switch (call.method) {
-                case "sendJson":
-                    JsonClient.send(client, call.argument("request"));
-                    result.success(null);
-                    break;
-                case "receiveJson":
-                    response = JsonClient.receive(client, call.argument("timeout"));
-                    result.success(response);
-                    break;
-                case "execute":
-                    response = JsonClient.execute(client, call.argument("request"));
-                    result.success(response);
-                case "destroy":
-                    JsonClient.destroy(client);
-                    client = 0;
-                    result.success(null);
-                default:
-                    result.notImplemented();
-                    break;
-            }
+        String response;
+        switch (call.method) {
+            case "create":
+                long client = JsonClient.create();
+                Log.i("Client", String.valueOf(client));
+                result.success(client);
+                break;
+            case "send":
+                JsonClient.send(call.argument("client"), call.argument("request"));
+                result.success(null);
+                break;
+            case "receive":
+                response = JsonClient.receive(call.argument("client"), call.argument("timeout"));
+                result.success(response);
+                break;
+            case "execute":
+                response = JsonClient.execute(call.argument("client"), call.argument("request"));
+                result.success(response);
+            case "destroy":
+                long temp = call.argument("client");
+                System.out.println(temp);
+                JsonClient.destroy(temp);
+                result.success(true);
+                break;
+            default:
+                result.notImplemented();
+                break;
         }
     });
   }
