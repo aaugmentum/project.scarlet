@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vinyl/services/tdlib/platform-linker.dart';
@@ -28,38 +29,56 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const platform = const MethodChannel('samples.flutter.dev/battery');
+  static const platform = const MethodChannel('tdjsonlib');
   String _client = 'Press button';
+
+  void create() async {
+    await TdLibJSON.create();
+
+    await for (var result in receive()) {
+      setState(() {
+       _client = result; 
+      });
+    }
+  }
+
+  Stream<String> receive() async* {
+    while (true) {
+      yield await TdLibJSON.receive(delay: 5);
+    }
+  }
+
+  void auth() async {
+    
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Vinyl')
-      ),
+      appBar: AppBar(title: Text('Vinyl')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Client created from tdlibjson: $_client', style: TextStyle(fontSize: 20), textAlign: TextAlign.center,),
+              child: Text(
+                'Result: $_client',
+                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
             ),
             RaisedButton(
               child: Text('GetClient'),
-              onPressed: () async {
-                int client = await create();
-
-                await destroy(client: client);
-
-                setState(() {
-                 _client = client.toString(); 
-                });
-              },
+              onPressed: create,
+            ),
+            RaisedButton(
+              child: Text('Receive'),
+              onPressed: receive,
             )
           ],
         ),
-      ), 
+      ),
     );
   }
 }
