@@ -24,7 +24,9 @@ public class PlatformChannelThread implements MethodChannel.MethodCallHandler {
                     result.success(null);
                     break;
                 case "send":
-                    JsonClient.send(client, call.argument("request"));
+                    String req = call.argument("request");
+                    Log.i("Request", req);
+                    JsonClient.send(client, req);
                     result.success(null);
                     break;
                 case "receive":
