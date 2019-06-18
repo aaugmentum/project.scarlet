@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
   String _client = 'Press button';
   final TextEditingController controller = TextEditingController();
 
-  void create() async {
+  void _createClient() async {
     await TdLibJSON.create();
   }
 
@@ -96,88 +96,116 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Vinyl')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Result: $_client',
-                style: TextStyle(fontSize: 20),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Row(
-              children: <Widget>[
-                RaisedButton(
-                  child: Text('GetState'),
-                  onPressed: () async {
-                    var state = {
-                      '@type': 'checkDatabaseEncryptionKey',
-                      'key': 'cucumber'
-                    };
-                    await TdLibJSON.send(request: jsonEncode(state));
-                    var result = await TdLibJSON.receive(delay: 1);
-                    setState(() {
-                      _client = result;
-                    });
-                  },
-                ),
-                RaisedButton(
-                  child: Text('GetClient'),
-                  onPressed: create,
-                ),
-                RaisedButton(
-                  child: Text('SetParams'),
-                  onPressed: setParams,
-                ),
-                RaisedButton(
-                  child: Text('SetKey'),
-                  onPressed: setKey,
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  width: 200,
-                  child: TextField(
-                    controller: controller,
-                    decoration:
-                        new InputDecoration(labelText: 'Enter your number'),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-                RaisedButton(
-                  child: Text('SendNumber'),
-                  onPressed: sendNumber,
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  width: 200,
-                  child: TextField(
-                    controller: controller,
-                    decoration:
-                        new InputDecoration(labelText: 'Enter your code'),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-                RaisedButton(
-                  child: Text('SendCode'),
-                  onPressed: sendCode,
-                ),
-              ],
-            ),
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          FractionallySizedBox(
+            heightFactor: .5,
+            alignment: Alignment.topCenter,
+            child: TdlibReceiveLogList(),
+          ),
+          Column(
+            children: <Widget>[
+              RaisedButton(
+                onPressed: _createClient,
+                child: Text('Create'),
+              )
+            ],
+          )
+        ],
       ),
+      // body: Center(
+      //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: <Widget>[
+      //       Padding(
+      //         padding: const EdgeInsets.all(8.0),
+      //         child: Text(
+      //           'Result: $_client',
+      //           style: TextStyle(fontSize: 20),
+      //           textAlign: TextAlign.center,
+      //         ),
+      //       ),
+      //       Row(
+      //         children: <Widget>[
+      //           RaisedButton(
+      //             child: Text('GetState'),
+      //             onPressed: () async {
+      //               var state = {
+      //                 '@type': 'checkDatabaseEncryptionKey',
+      //                 'key': 'cucumber'
+      //               };
+      //               await TdLibJSON.send(request: jsonEncode(state));
+      //               var result = await TdLibJSON.receive(delay: 1);
+      //               setState(() {
+      //                 _client = result;
+      //               });
+      //             },
+      //           ),
+      //           RaisedButton(
+      //             child: Text('GetClient'),
+      //             onPressed: create,
+      //           ),
+      //           RaisedButton(
+      //             child: Text('SetParams'),
+      //             onPressed: setParams,
+      //           ),
+      //           RaisedButton(
+      //             child: Text('SetKey'),
+      //             onPressed: setKey,
+      //           ),
+      //         ],
+      //       ),
+      //       Row(
+      //         children: <Widget>[
+      //           Container(
+      //             padding: EdgeInsets.symmetric(horizontal: 20),
+      //             width: 200,
+      //             child: TextField(
+      //               controller: controller,
+      //               decoration:
+      //                   new InputDecoration(labelText: 'Enter your number'),
+      //               keyboardType: TextInputType.number,
+      //             ),
+      //           ),
+      //           RaisedButton(
+      //             child: Text('SendNumber'),
+      //             onPressed: sendNumber,
+      //           ),
+      //         ],
+      //       ),
+      //       Row(
+      //         children: <Widget>[
+      //           Container(
+      //             padding: EdgeInsets.symmetric(horizontal: 20),
+      //             width: 200,
+      //             child: TextField(
+      //               controller: controller,
+      //               decoration:
+      //                   new InputDecoration(labelText: 'Enter your code'),
+      //               keyboardType: TextInputType.number,
+      //             ),
+      //           ),
+      //           RaisedButton(
+      //             child: Text('SendCode'),
+      //             onPressed: sendCode,
+      //           ),
+      //         ],
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
+  }
+}
+
+class TdlibReceiveLogList extends StatelessWidget {
+  const TdlibReceiveLogList({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView();
   }
 }
