@@ -93,16 +93,29 @@ class _HomePageState extends State<HomePage> {
     await TdLibJSON.send(request: jsonEncode(sendCode));
   }
 
+  void getFile() async {
+    var request = {
+      "@type":"downloadFile",
+      "priority_": 12,
+      "file_id_": 223,
+      "offset_": 0,
+      "limit_": 10539604,
+      "synchronous_": false
+    };
+
+    await TdLibJSON.send(request: jsonEncode(request));
+  }
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Vinyl')),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
+            Container(
               padding: const EdgeInsets.all(8.0),
+              height:500,
               child: Text(
                 'Result: $_client',
                 style: TextStyle(fontSize: 20),
@@ -115,8 +128,7 @@ class _HomePageState extends State<HomePage> {
                   child: Text('GetState'),
                   onPressed: () async {
                     var state = {
-                      '@type': 'checkDatabaseEncryptionKey',
-                      'key': 'cucumber'
+                      '@type': 'getAuthorizationState',
                     };
                     await TdLibJSON.send(request: jsonEncode(state));
                     var result = await TdLibJSON.receive(delay: 1);
@@ -175,6 +187,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
+            RaisedButton(
+                  child: Text('GetFile'),
+                  onPressed: getFile,
+                ),
           ],
         ),
       ),
