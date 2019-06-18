@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:vinyl/services/tdlib/platform-linker.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -32,25 +30,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const platform = const MethodChannel('tdjsonlib');
-  String _client = 'Press button';
-  final TextEditingController controller = TextEditingController();
+  var _items = <String>[];
 
-  void create() async {
-    await TdLibJSON.create();
-  }
-
-  Stream<String> receive() async* {
-    while (true) {
-      yield await TdLibJSON.receive(delay: 5);
-    }
-  }
-
-  void setParams() async {
+  void _createClient() async {
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path;
 
-    var setParams = {
+    var request = {
       '@type': 'setTdlibParameters',
       'parameters': {
         'database_directory': tempPath,
@@ -66,31 +52,28 @@ class _HomePageState extends State<HomePage> {
       }
     };
 
-    await TdLibJSON.send(request: jsonEncode(setParams));
+    await TdLibJSON.create();
+    await TdLibJSON.send(request: jsonEncode(request));
+
+    request = {'@type': 'checkDatabaseEncryptionKey', 'key': 'pinkPony'};
+    await TdLibJSON.send(request: jsonEncode(request));
+
+    await for (var item in _logger()) {
+      if (item == null) continue;
+      JsonEncoder encoder = JsonEncoder.withIndent('  ');
+      item = encoder.convert(jsonDecode(item));
+
+      _items.insert(0, item);
+      setState(() {
+        _items = _items;
+      });
+    }
   }
 
-  void setKey() async {
-    var setKey = {'@type': 'checkDatabaseEncryptionKey', 'key': 'cucumber'};
-    await TdLibJSON.send(request: jsonEncode(setKey));
-  }
-
-  void sendNumber() async {
-    var number = controller.text;
-    var sendNumber = {
-      '@type': 'setAuthenticationPhoneNumber',
-      'phone_number': '+' + number
-    };
-
-    await TdLibJSON.send(request: jsonEncode(sendNumber));
-  }
-
-  void sendCode() async {
-    var sendCode = {
-      "@type": "checkAuthenticationCode",
-      "code": controller.text
-    };
-
-    await TdLibJSON.send(request: jsonEncode(sendCode));
+  Stream<String> _logger() async* {
+    while (true) {
+      yield await TdLibJSON.receive(delay: 1);
+    }
   }
 
   void getFile() async {
@@ -109,90 +92,45 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Vinyl')),
-      body: Center(
+      body: SafeArea(
         child: Column(
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.all(8.0),
-              height:500,
-              child: Text(
-                'Result: $_client',
-                style: TextStyle(fontSize: 20),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Expanded(flex: 3, child: ReceiveLog(_items)),
+          Expanded(
+            flex: 1,
+            child: Column(
               children: <Widget>[
                 RaisedButton(
-                  child: Text('GetState'),
-                  onPressed: () async {
-                    var state = {
-                      '@type': 'getAuthorizationState',
-                    };
-                    await TdLibJSON.send(request: jsonEncode(state));
-                    var result = await TdLibJSON.receive(delay: 1);
-                    setState(() {
-                      _client = result;
-                    });
-                  },
-                ),
-                RaisedButton(
-                  child: Text('GetClient'),
-                  onPressed: create,
-                ),
-                RaisedButton(
-                  child: Text('SetParams'),
-                  onPressed: setParams,
-                ),
-                RaisedButton(
-                  child: Text('SetKey'),
-                  onPressed: setKey,
+                  onPressed: _createClient,
+                  child: Text("Start"),
                 ),
               ],
             ),
-            Row(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  width: 200,
-                  child: TextField(
-                    controller: controller,
-                    decoration:
-                        new InputDecoration(labelText: 'Enter your number'),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-                RaisedButton(
-                  child: Text('SendNumber'),
-                  onPressed: sendNumber,
-                ),
-              ],
+          ),
+        ],
+    )));
+  }
+}
+
+class ReceiveLog extends StatelessWidget {
+  const ReceiveLog(this._items, {Key key}) : super(key: key);
+  final _items;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.grey[350],
+      child: ListView.builder(
+        itemCount: _items.length,
+        itemBuilder: (context, i) {
+          return Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(_items[i], style: TextStyle(fontSize: 14), softWrap: true,),
             ),
-            Row(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  width: 200,
-                  child: TextField(
-                    controller: controller,
-                    decoration:
-                        new InputDecoration(labelText: 'Enter your code'),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-                RaisedButton(
-                  child: Text('SendCode'),
-                  onPressed: sendCode,
-                ),
-              ],
-            ),
-            RaisedButton(
-                  child: Text('GetFile'),
-                  onPressed: getFile,
-                ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
