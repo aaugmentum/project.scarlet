@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:vinyl/login_widged.dart';
+import 'package:vinyl/search_widged.dart';
 import 'package:vinyl/services/tdlib/platform-linker.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -82,9 +83,9 @@ class _HomePageState extends State<HomePage> {
     var request = {
       "@type": "downloadFile",
       "priority": 1,
-      "file_id": 220,
+      "file_id": 223,
       "offset": 0,
-      "limit": 105948,
+      "limit": 10539604,
       "synchronous": false
     };
 
@@ -101,7 +102,7 @@ class _HomePageState extends State<HomePage> {
             child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Expanded(flex: 3, child: ReceiveLogger(_items)),
+        Expanded(flex: 2, child: ReceiveLogger(_items)),
         Expanded(
           flex: 1,
           child: Column(
@@ -133,7 +134,8 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               // Login Form
-              LoginForm()
+              LoginForm(),
+              SearchForm()
             ],
           ),
         ),
