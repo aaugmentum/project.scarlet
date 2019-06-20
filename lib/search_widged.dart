@@ -27,37 +27,36 @@ class _SearchFormState extends State<SearchForm> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     //  border: InputBorder.none,
-                    labelText:
-                        'Search'),
+                    labelText: 'Search'),
               ),
             ),
             RaisedButton(
                 child: Text('Search'),
-                onPressed:() async {
-                        var request = {
-                          "@type": "searchMessages",
-                          "query" : _controller.text,
-                          "offset_date" : 1561029797,
-                          "offset_chat_id" : 0,
-                          "offset_message_id" : 0,
-                          "limit" : 5
-                        };
+                onPressed: () async {
+                  var request = {
+                    "@type": "searchMessages",
+                    "query": _controller.text,
+                    "offset_date": 1561029797,
+                    "offset_chat_id": 0,
+                    "offset_message_id": 0,
+                    "limit": 5
+                  };
 
-                        print(jsonEncode(request));
+                  print(jsonEncode(request));
 
-                        await TdLibJSON.send(request: jsonEncode(request));
+                  await TdLibJSON.send(request: jsonEncode(request));
 
-                        request = {
-                          "@type": "checkAuthenticationCode",
-                          "code": _controller.text
-                        };
+                  request = {
+                    "@type": "checkAuthenticationCode",
+                    "code": _controller.text
+                  };
 
-                        await TdLibJSON.send(request: jsonEncode(request));
+                  await TdLibJSON.send(request: jsonEncode(request));
 
-                        setState(() {
-                          _controller.text = '';
-                        });
-                      })
+                  setState(() {
+                    _controller.text = '';
+                  });
+                })
           ],
         ),
       ),
