@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:vinyl/login_widged.dart';
-import 'package:vinyl/search_widged.dart';
+import 'package:vinyl/components/login_widged.dart';
+import 'package:vinyl/components/search_widged.dart';
 import 'package:vinyl/services/tdlib/platform-linker.dart';
 import 'package:path_provider/path_provider.dart';
 
