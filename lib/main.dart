@@ -83,10 +83,10 @@ class _HomePageState extends State<HomePage> {
     var request = {
       "@type": "downloadFile",
       "priority": 1,
-      "file_id": 223,
+      "file_id": 195,
       "offset": 0,
-      "limit": 10539604,
-      "synchronous": false
+      "limit": 7256355,
+      "synchronous": true
     };
 
     var string = jsonEncode(request);
@@ -112,17 +112,17 @@ class _HomePageState extends State<HomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(width: 10),
+                  SizedBox(width: 25),
                   RaisedButton(
                     onPressed: _createClient,
                     child: Text("Start"),
                   ),
-                  SizedBox(width: 20),
+                  SizedBox(width: 25),
                   RaisedButton(
                     onPressed: _getFile,
                     child: Text("File"),
                   ),
-                  SizedBox(width: 20),
+                  SizedBox(width: 25),
                   RaisedButton(
                     onPressed: () {
                       setState(() {
