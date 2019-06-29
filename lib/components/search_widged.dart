@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:vinyl/services/tdlib/platform-linker.dart';
+import 'package:vinyl/services/platform/tdlibjson.dart';
 
 class SearchForm extends StatefulWidget {
   SearchForm({Key key}) : super(key: key);
