@@ -1,8 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:vinyl/services/platform/tdlibjson.dart';
+import 'package:vinyl/services/telegram/platform.dart';
 
 enum _States { WaitNumber, WaitCode, Finished }
 
