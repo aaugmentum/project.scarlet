@@ -7,7 +7,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var service = TdService(2.0);
+    var service = TdService(delay: 2.0);
 
     return Scaffold(
       body: Center(
@@ -17,10 +17,10 @@ class Home extends StatelessWidget {
             Text('HomePage'),
             RaisedButton(
               onPressed: () async {
+                print('Clicked');
                 service.create();
-                service.send(TestSquareInt(x: 5, callback: (response) {
-                  print(response);
-                }));
+                Result result = await service.send(TestSquareInt(x: 5));
+                print(result.hasError ? result.error : result.data);
               },
               child: Text('Square'),
             ),

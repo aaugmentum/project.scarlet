@@ -1,20 +1,17 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 
 int _random() => Random().nextInt(10000000);
 
 abstract class TdObject {
-  int getConstructor();
 }
 
 abstract class TdFunction extends TdObject {
   String type;
   num extra;
-  Function callback;
-  TdFunction(this.type, this.callback) {
+  TdFunction(this.type) {
     this.extra = _random();
   }
 
@@ -28,15 +25,9 @@ abstract class TdFunction extends TdObject {
 }
 
 class TestSquareInt extends TdFunction {
-  static const int CONSTUCTOR = 1000;
   int x;
 
-  TestSquareInt({@required this.x, @required callback}) : super('testSquareInt', callback);
-
-  @override
-  int getConstructor() {
-    return CONSTUCTOR;
-  }
+  TestSquareInt({@required this.x}) : super('testSquareInt');
 
   Map<String, dynamic> toJson() {
     var result = super.toJson();
