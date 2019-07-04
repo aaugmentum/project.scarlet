@@ -12,4 +12,9 @@ class TdLibJSON {
   static Future<String> execute({String request}) async => await _platform.invokeMethod('execute', <String, dynamic>{'request': request});
 
   static Future<void> destroy() async => await _platform.invokeMethod('destroy');
+
+  static Future<void> play({String title}) async => await _platform.invokeMethod('play', <String, dynamic>{'title': title});
+
+  static Future<void> pause() async => await _platform.invokeMethod('pause');
+
 }

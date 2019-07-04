@@ -1,5 +1,8 @@
 import UIKit
 import Flutter
+import AVFoundation
+import Foundation
+
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -10,6 +13,14 @@ import Flutter
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?
   ) -> Bool {
+    
+    //Player playground
+    var player = AVAudioPlayer()
+    
+    
+
+    
+    
     //Platform channeling code
     let lock = NSLock();
     let controller : FlutterViewController = window?.rootViewController as! FlutterViewController
@@ -35,7 +46,6 @@ import Flutter
                 if let res = td_json_client_receive(self?.client, args["delay"] as! Double) {
                     let event = String(cString: res)
                     result(event)
-                    print("\n\n\nMESSAGEE:\n\(event)\n\n\n")
                 }else{
                     result(nil)
                 }
@@ -51,6 +61,18 @@ import Flutter
                 td_json_client_destroy(self?.client)
                 result(nil)
                 print("Destroyed successfully");
+            case "play":
+                let args = call.arguments as! [String : Any]
+                do {
+                    player = try AVAudioPlayer(contentsOf: getURL(title: args["title"] as! String))
+                } catch {
+                    print("Something wrong")
+                }
+                player.play()
+                print("Playing");
+            case "pause":
+                player.pause()
+                print("Paused");
             default:
                 result(FlutterMethodNotImplemented)
                 return
@@ -65,11 +87,8 @@ import Flutter
     
 }
 
-func to_json(_ obj: Any) -> String {
-    do {
-        let obj = try JSONSerialization.data(withJSONObject: obj)
-        return String(data: obj, encoding: .utf8)!
-    } catch {
-        return ""
-    }
+func getURL(title : String) -> URL{
+    let dir = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .allDomainsMask, true).first
+    let path = "\(dir!)/music/\(title)"
+    return URL(fileURLWithPath: path)
 }

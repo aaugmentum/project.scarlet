@@ -33,6 +33,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var _items = <String>[];
+  bool isPlaying = false;
 
   void _createClient() async {
     Directory tempDir = await getTemporaryDirectory();
@@ -64,8 +65,9 @@ class _HomePageState extends State<HomePage> {
       if (item == null) continue;
       JsonEncoder encoder = JsonEncoder.withIndent('  ');
       item = encoder.convert(jsonDecode(item));
-
-      _items.insert(0, item);
+      if(item.contains("\"@type\": \"messages\"")){
+        _items.insert(0, item);
+      }
       setState(() {
         _items = _items;
       });
@@ -95,6 +97,16 @@ class _HomePageState extends State<HomePage> {
     await TdLibJSON.send(request: string);
   }
 
+  void _playMusic() async {
+    if(!isPlaying){
+      TdLibJSON.play();
+      isPlaying = true;
+    }else{
+      TdLibJSON.pause();
+      isPlaying = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,17 +124,17 @@ class _HomePageState extends State<HomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(width: 25),
+                  SizedBox(width: 3),
                   RaisedButton(
                     onPressed: _createClient,
                     child: Text("Start"),
                   ),
-                  SizedBox(width: 25),
+                  // SizedBox(width: 25),
                   RaisedButton(
                     onPressed: _getFile,
                     child: Text("File"),
                   ),
-                  SizedBox(width: 25),
+                  // SizedBox(width: 25),
                   RaisedButton(
                     onPressed: () {
                       setState(() {
@@ -130,6 +142,11 @@ class _HomePageState extends State<HomePage> {
                       });
                     },
                     child: Text("Clear Log"),
+                  ),
+                  // SizedBox(width: 25),
+                  RaisedButton(
+                    onPressed: _playMusic,
+                    child: Text("Play"),
                   ),
                 ],
               ),

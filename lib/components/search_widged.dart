@@ -33,23 +33,25 @@ class _SearchFormState extends State<SearchForm> {
             RaisedButton(
                 child: Text('Search'),
                 onPressed: () async {
+
+                  var filter = {'@type': 'searchMessagesFilterAudio'};
+
                   var request = {
-                    "@type": "searchMessages",
+                    "@type": "searchChatMessages",
+                    "chat_id": -1001130520198,
                     "query": _controller.text,
-                    "offset_date": 1561029797,
-                    "offset_chat_id": 0,
-                    "offset_message_id": 0,
-                    "limit": 5
+                    "sender_user": 0,
+                    "from_message_id": 0,
+                    "offset": 0,
+                    "limit": 1,
+                    "filter": filter
                   };
 
+                  // var request = {
+                  //   "@type": "searchPublicChat",
+                  //   "username": "Rockmusicbest"
+                  // };
                   print(jsonEncode(request));
-
-                  await TdLibJSON.send(request: jsonEncode(request));
-
-                  request = {
-                    "@type": "checkAuthenticationCode",
-                    "code": _controller.text
-                  };
 
                   await TdLibJSON.send(request: jsonEncode(request));
 
