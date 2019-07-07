@@ -43,7 +43,7 @@ class _SearchFormState extends State<SearchForm> {
                     "sender_user": 0,
                     "from_message_id": 0,
                     "offset": 0,
-                    "limit": 1,
+                    "limit": 50,
                     "filter": filter
                   };
 

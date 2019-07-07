@@ -64,6 +64,7 @@ import Foundation
             case "play":
                 let args = call.arguments as! [String : Any]
                 do {
+                    print("\n\n\nASD: \(getURL(title: args["title"] as! String))\n\n\n")
                     player = try AVAudioPlayer(contentsOf: getURL(title: args["title"] as! String))
                 } catch {
                     print("Something wrong")

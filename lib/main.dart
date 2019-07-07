@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:vinyl/components/login_widged.dart';
 import 'package:vinyl/components/search_widged.dart';
+import 'package:vinyl/components/music_card.dart';
 import 'package:vinyl/services/tdlib/platform-linker.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -32,7 +33,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var _items = <String>[];
+  // var _items = <String>[];
+  var _items = <Map<String, dynamic>>[];
   bool isPlaying = false;
 
   void _createClient() async {
@@ -65,8 +67,9 @@ class _HomePageState extends State<HomePage> {
       if (item == null) continue;
       JsonEncoder encoder = JsonEncoder.withIndent('  ');
       item = encoder.convert(jsonDecode(item));
-      if(item.contains("\"@type\": \"messages\"")){
-        _items.insert(0, item);
+      Map itemMap = jsonDecode(item);
+      if(itemMap['@type'] == "messages"){
+        _items.insert(0, itemMap);
       }
       setState(() {
         _items = _items;
@@ -138,7 +141,8 @@ class _HomePageState extends State<HomePage> {
                   RaisedButton(
                     onPressed: () {
                       setState(() {
-                       _items = <String>[]; 
+                      //  _items = <String>[]; 
+                       _items = <Map<String, dynamic>>[]; 
                       });
                     },
                     child: Text("Clear Log"),
@@ -170,14 +174,15 @@ class ReceiveLogger extends StatelessWidget {
     return Container(
       color: Colors.grey[350],
       child: ListView.builder(
-        itemCount: _items.length,
+        itemCount: _items.length == 0?0:_items[0]['messages'].length,
         itemBuilder: (context, i) {
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(_items[i], style: TextStyle(fontSize: 14), softWrap: true,),
-            ),
-          );
+          // return Card(
+          //   child: Padding(
+          //     padding: const EdgeInsets.all(16.0),
+          //     child: Text(_items[i], style: TextStyle(fontSize: 14), softWrap: true,),
+          //   ),
+          // );
+          return MusicCard(title: _items[0]['messages'][i]['content']['audio']['title'], id: _items[0]['messages'][i]['content']['audio']['audio']['id'], size: _items[0]['messages'][i]['content']['audio']['audio']['size'], file_name: _items[0]['messages'][i]['content']['audio']['file_name']);
         },
       ),
     );
