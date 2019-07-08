@@ -71,6 +71,9 @@ class _HomePageState extends State<HomePage> {
       if(itemMap['@type'] == "messages"){
         _items.insert(0, itemMap);
       }
+      if(itemMap['@type'] == "file"){
+        // var percent = itemMap['local']['downloaded_size']/itemMap['size'] * 100.0;
+      }
       setState(() {
         _items = _items;
       });
@@ -102,10 +105,10 @@ class _HomePageState extends State<HomePage> {
 
   void _playMusic() async {
     if(!isPlaying){
-      TdLibJSON.play();
+      MusicChannel.play();
       isPlaying = true;
     }else{
-      TdLibJSON.pause();
+      MusicChannel.pause();
       isPlaying = false;
     }
   }
@@ -182,7 +185,7 @@ class ReceiveLogger extends StatelessWidget {
           //     child: Text(_items[i], style: TextStyle(fontSize: 14), softWrap: true,),
           //   ),
           // );
-          return MusicCard(title: _items[0]['messages'][i]['content']['audio']['title'], id: _items[0]['messages'][i]['content']['audio']['audio']['id'], size: _items[0]['messages'][i]['content']['audio']['audio']['size'], file_name: _items[0]['messages'][i]['content']['audio']['file_name']);
+          return MusicCard(title: _items[0]['messages'][i]['content']['audio']['title'], id: _items[0]['messages'][i]['content']['audio']['audio']['id'], size: _items[0]['messages'][i]['content']['audio']['audio']['size'], fileName: _items[0]['messages'][i]['content']['audio']['file_name']);
         },
       ),
     );

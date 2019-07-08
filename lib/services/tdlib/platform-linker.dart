@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 
+//Channel to use TDlib requests
 class TdLibJSON {
   static const _platform = const MethodChannel('tdjsonlib');
 
@@ -12,6 +13,12 @@ class TdLibJSON {
   static Future<String> execute({String request}) async => await _platform.invokeMethod('execute', <String, dynamic>{'request': request});
 
   static Future<void> destroy() async => await _platform.invokeMethod('destroy');
+
+}
+
+//Channel to control music
+class MusicChannel {
+  static const _platform = const MethodChannel('musicchannel');
 
   static Future<void> play({String title}) async => await _platform.invokeMethod('play', <String, dynamic>{'title': title});
 

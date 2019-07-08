@@ -9,8 +9,8 @@ class MusicCard extends StatefulWidget {
   String title;
   int size;
   int id;
-  String file_name;
-  MusicCard({Key key, this.title, this.id, this.size, this.file_name}) : super(key: key);
+  String fileName;
+  MusicCard({Key key, this.title, this.id, this.size, this.fileName}) : super(key: key);
 
   _MusicCardState createState() => _MusicCardState();
 }
@@ -52,10 +52,10 @@ class _MusicCardState extends State<MusicCard> {
                 child: Text('Play'),
                 onPressed: () async {
                   if(!isPlaying){
-                    TdLibJSON.play(title: widget.file_name);
+                    MusicChannel.play(title: widget.fileName);
                     isPlaying = true;
                   }else{
-                    TdLibJSON.pause();
+                    MusicChannel.pause();
                     isPlaying = false;
                   }
                   
@@ -64,7 +64,4 @@ class _MusicCardState extends State<MusicCard> {
         ),
     );
   }
-}
-
-class _title {
 }
