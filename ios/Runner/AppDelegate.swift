@@ -81,6 +81,38 @@ import Foundation
             lock.unlock();
         }
     })
+    
+    
+    let musicChannel = FlutterMethodChannel(name: "musicchannel",
+                                             binaryMessenger: controller)
+    
+    musicChannel.setMethodCallHandler({
+        [weak self] (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
+        DispatchQueue.global(qos: .utility).async {
+            lock.lock()
+            switch(call.method){
+            case "play":
+                let args = call.arguments as! [String : Any]
+                do {
+                    print("\n\n\nASD: \(getURL(title: args["title"] as! String))\n\n\n")
+                    player = try AVAudioPlayer(contentsOf: getURL(title: args["title"] as! String))
+                } catch {
+                    print("Something wrong")
+                }
+                player.play()
+                print("Playing");
+            case "pause":
+                player.pause()
+                print("Paused");
+            default:
+                result(FlutterMethodNotImplemented)
+                return
+            }
+            lock.unlock();
+        }
+    })
+    
+    
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
