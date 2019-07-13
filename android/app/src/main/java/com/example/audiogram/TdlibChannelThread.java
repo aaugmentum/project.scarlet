@@ -1,50 +1,60 @@
 package com.example.audiogram;
 
+import android.app.Activity;
 import android.util.Log;
 import org.drinkless.tdlib.JsonClient;
-
 import java.util.concurrent.locks.ReentrantLock;
-
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 
-public class PlatformChannelThread implements MethodChannel.MethodCallHandler {
+public class TdlibChannelThread implements MethodChannel.MethodCallHandler {
     private long client;
     private ReentrantLock lock = new ReentrantLock();
+    private Activity activity;
+
+    TdlibChannelThread(Activity activity) {
+        this.activity = activity;
+    }
 
     @Override
     public void onMethodCall(MethodCall call, MethodChannel.Result result) {
         new Thread(() -> {
             lock.lock();
-            String response;
+            final String response;
             switch (call.method) {
                 case "create":
                     client = JsonClient.create();
                     Log.i("Client", String.valueOf(client));
-                    result.success(null);
+                    response(result, null);
                     break;
                 case "send":
                     String req = call.argument("request");
                     Log.i("Request", req);
                     JsonClient.send(client, req);
-                    result.success(null);
+                    response(result, null);
                     break;
                 case "receive":
                     response = JsonClient.receive(client, call.argument("delay"));
-                    result.success(response);
+                    response(result, response);
                     break;
                 case "execute":
                     response = JsonClient.execute(client, call.argument("request"));
-                    result.success(response);
+                    response(result, response);
+                    break;
                 case "destroy":
+                    response(result, null);
                     JsonClient.destroy(client);
-                    result.success(null);
                     break;
                 default:
-                    result.notImplemented();
+                    activity.runOnUiThread(result::notImplemented);
                     break;
             }
+
             lock.unlock();
         }).start();
+    }
+
+    private void response(MethodChannel.Result result, String response) {
+        activity.runOnUiThread(() -> result.success(response));
     }
 }

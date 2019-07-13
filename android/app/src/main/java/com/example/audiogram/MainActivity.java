@@ -13,7 +13,7 @@ public class MainActivity extends FlutterActivity {
     super.onCreate(savedInstanceState);
     GeneratedPluginRegistrant.registerWith(this);
 
-    MethodChannel mC = new MethodChannel(getFlutterView(), CHANNEL);
-    mC.setMethodCallHandler(new PlatformChannelThread());
+    MethodChannel tdlibMc = new MethodChannel(getFlutterView(), CHANNEL);
+    tdlibMc.setMethodCallHandler(new TdlibChannelThread(this));
   }
 }
