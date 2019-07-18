@@ -81,7 +81,7 @@ class TdlibParameters extends TdObject {
   @JsonKey(name: 'use_secret_chats')
   bool useSecretChats;
   @JsonKey(name: 'api_id')
-  String apiId;
+  int apiId;
   @JsonKey(name: 'api_hash')
   String apiHash;
   @JsonKey(name: 'system_language_code')
@@ -102,3 +102,73 @@ class TdlibParameters extends TdObject {
   @override
   Map<String, dynamic> toJson() => _$TdlibParametersToJson(this);
 }
+
+@JsonSerializable()
+class GetAuthorizationState extends TdFunction {
+  GetAuthorizationState() : super('getAuthorizationState');
+  
+  factory GetAuthorizationState.fromJson(Map<String, dynamic> json) => _$GetAuthorizationStateFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$GetAuthorizationStateToJson(this);
+}
+
+@JsonSerializable()
+class CheckDatabaseEncryptionKey extends TdFunction {
+  CheckDatabaseEncryptionKey({this.encryptionKey}) : super('checkDatabaseEncryptionKey');
+
+  @JsonKey(name: 'key')
+  String encryptionKey;
+
+  factory CheckDatabaseEncryptionKey.fromJson(Map<String, dynamic> json) => _$CheckDatabaseEncryptionKeyFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$CheckDatabaseEncryptionKeyToJson(this);
+}
+
+@JsonSerializable()
+class SetAuthenticationPhoneNumber extends TdFunction {
+  SetAuthenticationPhoneNumber({this.phoneNumber, this.allowFlashCall, this.isCurrentPhoneNumber}) : super('setAuthenticationPhoneNumber');
+
+  @JsonKey(name: 'phone_number')
+  String phoneNumber;
+  @JsonKey(name: 'allow_flash_call')
+  bool allowFlashCall;
+  @JsonKey(name: 'is_current_phone_number')
+  bool isCurrentPhoneNumber;
+
+  factory SetAuthenticationPhoneNumber.fromJson(Map<String, dynamic> json) => _$SetAuthenticationPhoneNumberFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$SetAuthenticationPhoneNumberToJson(this);
+}
+
+@JsonSerializable()
+class CheckAuthenticationCode extends TdFunction {
+  CheckAuthenticationCode({this.code, this.firstName, this.lastName}) : super('checkAuthenticationCode');
+
+  String code;
+  @JsonKey(name: 'first_name')
+  String firstName;
+  @JsonKey(name: 'last_name')
+  String lastName;
+
+  factory CheckAuthenticationCode.fromJson(Map<String, dynamic> json) => _$CheckAuthenticationCodeFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$CheckAuthenticationCodeToJson(this);
+}
+
+@JsonSerializable()
+class CheckAuthenticationPassword extends TdFunction {
+  CheckAuthenticationPassword({this.password}) : super('checkAuthenticationPassword');
+
+  String password;
+
+  factory CheckAuthenticationPassword.fromJson(Map<String, dynamic> json) => _$CheckAuthenticationPasswordFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$CheckAuthenticationPasswordToJson(this);
+}
+
+

@@ -20,7 +20,7 @@ class Home extends StatelessWidget {
             RaisedButton(
               onPressed: () async {
                 print('Clicked');
-                await service.send(TestSquareInt(x: 5));
+                await service.send(GetAuthorizationState());
 
               },
               child: Text('Square'),
