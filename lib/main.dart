@@ -10,39 +10,38 @@ import 'package:vinyl/services/telegram/td_api.dart';
 import 'package:vinyl/services/telegram/td_service.dart';
 import 'package:path_provider/path_provider.dart';
 
-
 void main(List<String> args) {
   runApp(App());
 }
 
 class App extends StatelessWidget {
   final service = TdService(delay: 1.0);
-  
+
   Future<bool> initialize() async {
     service.create();
     service.stream.listen(print);
     Directory dbDirectory = await getTemporaryDirectory();
     String dbPath = dbDirectory.path;
-    await service.send(SetTdlibParameters(parameters: new TdlibParameters(
-      databaseDirectory: dbPath, 
-      useMessageDatabase: true, 
-      useSecretChats: false,
-      apiId: 563135,
-      apiHash: "85021a6322d640fd509cbae5bebcf4e6",
-      systemLanguageCode: "en",
-      deviceModel: "Desktop",
-      systemVersion: "Unknown",
-      applicationVersion: "1.0",
-      enableStorageOptimizer: true
-    )));
-    
-   await service.send(CheckDatabaseEncryptionKey(encryptionKey: "ragepanda"));
-   return true;
+    await service.send(SetTdlibParameters(
+        parameters: new TdlibParameters(
+            databaseDirectory: dbPath,
+            useMessageDatabase: true,
+            useSecretChats: false,
+            apiId: 563135,
+            apiHash: "85021a6322d640fd509cbae5bebcf4e6",
+            systemLanguageCode: "en",
+            deviceModel: "Desktop",
+            systemVersion: "Unknown",
+            applicationVersion: "1.0",
+            enableStorageOptimizer: true)));
+
+    await service.send(CheckDatabaseEncryptionKey(encryptionKey: "ragepanda"));
+    return true;
   }
+
   @override
   Widget build(BuildContext context) {
-
-    Future<Map<String,dynamic>> getAuthState() async{
+    Future<Map<String, dynamic>> getAuthState() async {
       Map<String, dynamic> authState;
       // initialize().whenComplete(()async=>{
       //   service.send(GetAuthorizationState()).then((response) => {
@@ -51,7 +50,9 @@ class App extends StatelessWidget {
       //   })
       // });
       await initialize();
-      await service.send(GetAuthorizationState()).then((response) => authState = response.data);
+      await service
+          .send(GetAuthorizationState())
+          .then((response) => authState = response.data);
       return authState;
     }
     // return FutureBuilder(
@@ -76,10 +77,12 @@ class App extends StatelessWidget {
     // );
 
     return MaterialApp(
-              title: title,
-              theme: ThemeData(primarySwatch: Colors.blue),
-              initialRoute: welcomeRoute,
-              onGenerateRoute: Router.generateRoute,
-            );
+      title: title,
+      theme: ThemeData(
+        primarySwatch: Colors.grey,
+      ),
+      initialRoute: prefix0.homeRoute,
+      onGenerateRoute: Router.generateRoute,
+    );
   }
 }
