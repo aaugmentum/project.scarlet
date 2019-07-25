@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vinyl/utils/constants.dart';
+import 'package:vinyl/utils/constants.dart' as prefix0;
 
 final albums = [
   'Homework',
@@ -54,19 +55,28 @@ class Home extends StatelessWidget {
                     borderRadius: BorderRadius.circular(6),
                     side: BorderSide(color: Colors.white30, width: 0.5)),
                 color: mAppBarColor,
-                child: ListTile(
-                  leading: Image.asset('assets/covers/4.jpg'),
-                  title: Text(
-                    'Get Lucky',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  subtitle: Text(
-                    'Daft Punk',
-                    style: TextStyle(color: Colors.white54),
-                  ),
-                  trailing: Icon(
-                    FontAwesomeIcons.play,
-                    color: Colors.white70,
+                child: Hero(
+                  tag: 'cover',
+                  child: Material(
+                    color: mAppBarColor,
+                    child: ListTile(
+                      
+                      onTap: () =>
+                          Navigator.pushNamed(context, prefix0.playerRoute),
+                      leading: Image.asset('assets/covers/4.jpg'),
+                      title: Text(
+                        'Get Lucky',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      subtitle: Text(
+                        'Daft Punk',
+                        style: TextStyle(color: Colors.white54),
+                      ),
+                      trailing: Icon(
+                        FontAwesomeIcons.play,
+                        color: Colors.white70,
+                      ),
+                    ),
                   ),
                 ),
               ),

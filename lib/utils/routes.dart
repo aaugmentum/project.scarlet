@@ -6,6 +6,7 @@ import 'package:vinyl/screens/code/code_screen.dart';
 import 'package:vinyl/screens/home/home.dart';
 import 'package:vinyl/screens/login/login.dart';
 import 'package:vinyl/screens/phone_number/phone_number_screen.dart';
+import 'package:vinyl/screens/player/player.dart';
 import 'package:vinyl/screens/welcome/welcome_screen.dart';
 import 'package:vinyl/utils/constants.dart';
 
@@ -17,7 +18,7 @@ class Router {
       case albumRoute:
         return CupertinoPageRoute(builder: (context) => Album());
       case playerRoute:
-        return MaterialPageRoute(builder: (context) => Album());
+        return MaterialPageRoute(builder: (context) => Player());
       case loginRoute:
         return MaterialPageRoute(builder: (context) => Login());
       case welcomeRoute:
