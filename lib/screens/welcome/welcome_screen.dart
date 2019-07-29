@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:vinyl/services/telegram/td_service.dart';
 import 'package:vinyl/utils/constants.dart';
-import 'package:vinyl/utils/routes.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vinyl/services/telegram/td_api.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
-
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key key}) : super(key: key);
@@ -27,9 +25,9 @@ class WelcomeScreen extends StatelessWidget {
             enableStorageOptimizer: true)));
 
     print(result.data);
-    result = await service.send(CheckDatabaseEncryptionKey(encryptionKey: "ragepanda"));
+    result = await service
+        .send(CheckDatabaseEncryptionKey(encryptionKey: "ragepanda"));
     print(result.data);
-
 
     return true;
   }

@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:vinyl/utils/constants.dart';
 import 'package:vinyl/utils/routes.dart';
-import 'package:vinyl/services/telegram/td_api.dart';
 import 'package:vinyl/services/telegram/td_service.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 void main(List<String> args) {
@@ -13,7 +9,6 @@ void main(List<String> args) {
 }
 
 class App extends StatelessWidget {
- 
   @override
   Widget build(BuildContext context) {
     return Provider<TdService>.value(

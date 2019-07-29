@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:vinyl/services/telegram/td_api.dart';
 import 'package:vinyl/services/telegram/td_service.dart';
 import 'package:vinyl/utils/constants.dart';
-import 'package:vinyl/utils/constants.dart' as prefix0;
-import 'package:vinyl/utils/routes.dart';
 
 class PhoneNumberScreen extends StatelessWidget {
   const PhoneNumberScreen({Key key}) : super(key: key);
