@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:vinyl/components/animated_play_button.dart';
 import 'package:vinyl/utils/constants.dart';
 import 'package:vinyl/utils/constants.dart' as prefix0;
 
@@ -60,7 +61,6 @@ class Home extends StatelessWidget {
                   child: Material(
                     color: mAppBarColor,
                     child: ListTile(
-                      
                       onTap: () =>
                           Navigator.pushNamed(context, prefix0.playerRoute),
                       leading: Image.asset('assets/covers/4.jpg'),
@@ -72,10 +72,7 @@ class Home extends StatelessWidget {
                         'Daft Punk',
                         style: TextStyle(color: Colors.white54),
                       ),
-                      trailing: Icon(
-                        FontAwesomeIcons.play,
-                        color: Colors.white70,
-                      ),
+                      trailing: AnimatedPlayButton(size: 40),
                     ),
                   ),
                 ),

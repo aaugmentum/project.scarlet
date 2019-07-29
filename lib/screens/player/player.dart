@@ -1,10 +1,43 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:vinyl/components/animated_play_button.dart';
 
-class Player extends StatelessWidget {
+const songs = [
+  'Give Life Back To Music',
+  'The Game Of Love',
+  'Giorgio By Moroder',
+  'Within',
+  'Instant Crush',
+  'Lose Yourself To Dance',
+  'Touch',
+  'Get Lucky',
+  'Beyond',
+  'Motherboard',
+  'Fragments Of Time',
+  'Doin\' It Right',
+  'Contact'
+];
+
+class Player extends StatefulWidget {
   const Player({Key key}) : super(key: key);
+
+  @override
+  _PlayerState createState() => _PlayerState();
+}
+
+class _PlayerState extends State<Player> {
+  String _title;
+  double _value;
+
+  @override
+  void initState() {
+    super.initState();
+    _value = 0.0;
+    _title = songs[0];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +52,7 @@ class Player extends StatelessWidget {
                 child: ListTile(
                   leading: Image.asset('assets/covers/4.jpg'),
                   title: Text(
-                    'Get Lucky',
+                    _title,
                     style: TextStyle(color: Colors.white),
                   ),
                   subtitle: Text(
@@ -30,7 +63,56 @@ class Player extends StatelessWidget {
               ),
               tag: 'cover',
             ),
-            new MySlider()
+            MySlider(_value),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(FontAwesomeIcons.backward, color: Colors.white70),
+                  onPressed: () {},
+                ),
+                AnimatedPlayButton(size: 70),
+                IconButton(
+                  icon: Icon(FontAwesomeIcons.forward, color: Colors.white70),
+                  onPressed: () {},
+                )
+              ],
+            ),
+            Expanded(
+              child: ListView.separated(
+                physics: BouncingScrollPhysics(),
+                itemCount: songs.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    onTap: () {
+                      setState(() {
+                        _title = songs[index];
+                        _value = 0.0;
+                      });
+                    },
+                    leading: Container(
+                      width: 20,
+                      alignment: Alignment.center,
+                      child: Text('${index + 1}', 
+                          style: TextStyle(color: Colors.white70, fontSize: 14)),
+                    ),
+                    title: Text(
+                      songs[index],
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    subtitle: Text('Random Access Memories',
+                        style: TextStyle(color: Colors.white70)),
+                  );
+                }, separatorBuilder: (BuildContext context, int index) {
+                  return Divider(
+                    indent: 65,
+                    height: 1.0,
+                    color: Colors.white30,
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -39,7 +121,11 @@ class Player extends StatelessWidget {
 }
 
 class MySlider extends StatefulWidget {
-  const MySlider({
+  final double value;
+
+  const MySlider(
+  this.value,
+  {
     Key key,
   }) : super(key: key);
 
@@ -48,17 +134,17 @@ class MySlider extends StatefulWidget {
 }
 
 class _MySliderState extends State<MySlider> {
-  double value = 0;
+  double _value;
 
   @override
-  void initState() {  
-
+  void initState() {
+    _value = widget.value;
     Timer.periodic(Duration(seconds: 2), (timer) {
       setState(() {
-       value = value + 1; 
+        _value = _value == 100 ? 0 : _value + 1;
       });
     });
-    super.initState(); 
+    super.initState();
   }
 
   @override
@@ -67,7 +153,7 @@ class _MySliderState extends State<MySlider> {
       min: 0,
       max: 100,
       onChanged: (double value) {},
-      value: value,
+      value: _value,
     );
   }
 }
