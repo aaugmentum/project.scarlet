@@ -4,7 +4,6 @@ import 'package:vinyl/services/telegram/platform.dart';
 import 'package:vinyl/services/telegram/td_api.dart';
 
 class TdService {
-
   const TdService();
 
   void create() async {
