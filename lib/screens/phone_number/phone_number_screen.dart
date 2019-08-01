@@ -4,52 +4,69 @@ import 'package:vinyl/services/telegram/td_api.dart';
 import 'package:vinyl/services/telegram/td_service.dart';
 import 'package:vinyl/utils/constants.dart';
 
-class PhoneNumberScreen extends StatelessWidget {
-  const PhoneNumberScreen({Key key}) : super(key: key);
+class PhoneNumberScreen extends StatefulWidget {
+  PhoneNumberScreen({Key key}) : super(key: key);
 
-  void check(TdService service) async {
+  @override
+  _PhoneNumberScreenState createState() => _PhoneNumberScreenState();
+}
+
+class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
+  TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    this._controller = TextEditingController();
+  }
+
+  Future<void> _check(TdService service) async {
     Result result = await service.send(GetAuthorizationState());
     print("THE RESULT IS ${result.data.toString()}");
   }
 
   @override
   Widget build(BuildContext context) {
-    final service = Provider.of<TdService>(context);
-    var controller = TextEditingController();
-    check(service);
+    print('Phone number screen');
+
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                  'Please enter your phone number, so we can connect to your telegram account and steal all your data'),
-              TextFormField(
-                controller: controller,
-                keyboardType: TextInputType.number,
-                decoration:
-                    InputDecoration(labelText: 'Enter your phone number'),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              RawMaterialButton(
-                fillColor: Colors.blue,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50)),
-                textStyle: TextStyle(color: Colors.white, fontSize: 18),
-                constraints: BoxConstraints(minHeight: 40, minWidth: 100),
-                onPressed: () async {
-                  print("+${controller.text}");
-                  service.send(SetAuthenticationPhoneNumber(
-                      phoneNumber: "+${controller.text}"));
-                  Navigator.pushNamed(context, codeRoute);
-                },
-                child: Text('Enter'),
-              ),
-            ],
+        child: SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                    'Please enter your phone number, so we can connect to your telegram account and steal all your data'),
+                TextFormField(
+                  controller: _controller,
+                  keyboardType: TextInputType.number,
+                  decoration:
+                      InputDecoration(labelText: 'Enter your phone number'),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                RawMaterialButton(
+                  fillColor: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50)),
+                  textStyle: TextStyle(color: Colors.white, fontSize: 18),
+                  constraints: BoxConstraints(minHeight: 40, minWidth: 100),
+                  onPressed: () async {
+                    print("+${_controller.text}");
+                    TdService service = Provider.of<TdService>(context);
+
+                    service.send(SetAuthenticationPhoneNumber(
+                        phoneNumber: "+${_controller.text}"));
+                    Navigator.pushNamed(context, codeRoute);
+                  },
+                  child: Text('Enter'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

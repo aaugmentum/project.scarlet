@@ -24,12 +24,10 @@ public class TdlibChannelThread implements MethodChannel.MethodCallHandler {
             switch (call.method) {
                 case "create":
                     client = JsonClient.create();
-                    Log.i("Client", String.valueOf(client));
                     response(result, null);
                     break;
                 case "send":
                     String req = call.argument("request");
-                    Log.i("Request", req);
                     JsonClient.send(client, req);
                     response(result, null);
                     break;

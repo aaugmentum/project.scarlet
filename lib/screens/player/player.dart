@@ -21,14 +21,14 @@ const songs = [
   'Contact'
 ];
 
-class Player extends StatefulWidget {
-  const Player({Key key}) : super(key: key);
+class PlayerScreen extends StatefulWidget {
+  const PlayerScreen({Key key}) : super(key: key);
 
   @override
-  _PlayerState createState() => _PlayerState();
+  _PlayerScreenState createState() => _PlayerScreenState();
 }
 
-class _PlayerState extends State<Player> {
+class _PlayerScreenState extends State<PlayerScreen> {
   String _title;
   double _value;
 
@@ -41,6 +41,8 @@ class _PlayerState extends State<Player> {
 
   @override
   Widget build(BuildContext context) {
+    print('Player Screen build');
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(

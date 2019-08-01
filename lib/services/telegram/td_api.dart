@@ -39,15 +39,30 @@ class TestSquareInt extends TdFunction {
 
 @JsonSerializable()
 class SetLogStream extends TdFunction {
-  SetLogStream({this.logStream}) : super('setLogStream');
-
+  SetLogStream() : super('setLogStream') {
+    this.logStream = LogStream();
+  } 
+ 
   @JsonKey(name: 'log_stream')
-  int logStream;
+  LogStream logStream;
 
   factory SetLogStream.fromJson(Map<String, dynamic> json) => _$SetLogStreamFromJson(json);  
 
   @override
   Map<String, dynamic> toJson() => _$SetLogStreamToJson(this);
+}
+
+@JsonSerializable()
+class SetLogVerbosityLevel extends TdFunction {
+  SetLogVerbosityLevel({this.newVerbosityLevel = 5}) : super('setLogVerbosityLevel'); 
+
+  @JsonKey(name: 'new_verbosity_level')
+  int newVerbosityLevel;
+
+  factory SetLogVerbosityLevel.fromJson(Map<String, dynamic> json) => _$SetLogVerbosityLevelFromJson(json);  
+
+  @override
+  Map<String, dynamic> toJson() => _$SetLogVerbosityLevelToJson(this);
 }
 
 @JsonSerializable()
@@ -171,4 +186,12 @@ class CheckAuthenticationPassword extends TdFunction {
   Map<String, dynamic> toJson() => _$CheckAuthenticationPasswordToJson(this);
 }
 
+@JsonSerializable()
+class LogStream extends TdObject {
+  LogStream();
+  
+  @override
+  Map<String, dynamic> toJson() => _$LogStreamToJson(this);
 
+  factory LogStream.fromJson(Map<String, dynamic> json) => _$LogStreamFromJson(json);
+}

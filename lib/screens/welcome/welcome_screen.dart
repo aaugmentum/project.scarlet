@@ -7,6 +7,8 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('Welcome Screen build');
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -33,8 +35,8 @@ class WelcomeScreen extends StatelessWidget {
                 fontSize: 18,
               ),
               constraints: BoxConstraints(minHeight: 50, minWidth: 150),
-              onPressed: () {
-                Navigator.pushNamed(context, phoneNumberRoute);
+              onPressed: () async {
+                await Navigator.pushNamed(context, phoneNumberRoute);
               },
               child: Text('Login'),
             ),

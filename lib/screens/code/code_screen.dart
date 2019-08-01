@@ -9,6 +9,8 @@ class CodeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('Code Screen build');
+
     var controller = TextEditingController();
 
     final service = Provider.of<TdService>(context);

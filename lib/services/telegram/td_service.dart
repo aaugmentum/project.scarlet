@@ -11,18 +11,33 @@ class TdService {
   }
 
   Future<Result<T>> send<T>(TdFunction function) async {
-    await TdLibJSON.send(request: function.toString());
+    String response = function.toString();
+    print('Response: $response');
+    await TdLibJSON.send(request: response);
+    
 
     while (true) {
       final temp = await TdLibJSON.receive(delay: 1.0);
       if (temp == null) 
-        continue;
+        break;
       var responseMap = jsonDecode(temp);
       
-      if (responseMap['@extra'] != null && responseMap['@extra'] == function.extra) 
+      if (responseMap['@extra'] != null && responseMap['@extra'] == function.extra) {
+        print('Result: ${responseMap.toString()}');    
         return Result.success(responseMap);
+      }
     }
+    return Result.error('No Response');
   }
+
+   Future<void> execute<T>(TdFunction function) async {
+    String response = function.toString();
+    print('Response: $response');
+    String result = await TdLibJSON.execute(request: response);
+    print('Result: $result');
+  }
+
+
 }
 
 class Result<T> {

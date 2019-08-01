@@ -4,23 +4,24 @@ import 'package:flutter/widgets.dart';
 import 'package:vinyl/screens/album/album.dart';
 import 'package:vinyl/screens/code/code_screen.dart';
 import 'package:vinyl/screens/home/home.dart';
-import 'package:vinyl/screens/login/login.dart';
 import 'package:vinyl/screens/phone_number/phone_number_screen.dart';
 import 'package:vinyl/screens/player/player.dart';
 import 'package:vinyl/screens/welcome/welcome_screen.dart';
 import 'package:vinyl/utils/constants.dart';
+import 'package:vinyl/screens/splash.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case homeRoute:
-        return MaterialPageRoute(builder: (context) => Home());
+        return MaterialPageRoute(builder: (context) => HomeScreen());
       case albumRoute:
-        return CupertinoPageRoute(builder: (context) => Album());
+        return CupertinoPageRoute(builder: (context) => AlbumScreen());
       case playerRoute:
-        return MaterialPageRoute(builder: (context) => Player());
-      case loginRoute:
-        return MaterialPageRoute(builder: (context) => Login());
+        return MaterialPageRoute(builder: (context) => PlayerScreen());
+      case splashRoute:
+        return MaterialPageRoute(builder: (context) => SplashScreen());      
+      //First start
       case welcomeRoute:
         return MaterialPageRoute(builder: (context) => WelcomeScreen());
       case phoneNumberRoute:

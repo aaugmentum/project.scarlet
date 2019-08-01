@@ -20,9 +20,12 @@ Map<String, dynamic> _$TestSquareIntToJson(TestSquareInt instance) =>
     };
 
 SetLogStream _$SetLogStreamFromJson(Map<String, dynamic> json) {
-  return SetLogStream(logStream: json['log_stream'] as int)
+  return SetLogStream()
     ..type = json['@type'] as String
-    ..extra = json['@extra'] as num;
+    ..extra = json['@extra'] as num
+    ..logStream = json['log_stream'] == null
+        ? null
+        : LogStream.fromJson(json['log_stream'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$SetLogStreamToJson(SetLogStream instance) =>
@@ -30,6 +33,21 @@ Map<String, dynamic> _$SetLogStreamToJson(SetLogStream instance) =>
       '@type': instance.type,
       '@extra': instance.extra,
       'log_stream': instance.logStream
+    };
+
+SetLogVerbosityLevel _$SetLogVerbosityLevelFromJson(Map<String, dynamic> json) {
+  return SetLogVerbosityLevel(
+      newVerbosityLevel: json['new_verbosity_level'] as int)
+    ..type = json['@type'] as String
+    ..extra = json['@extra'] as num;
+}
+
+Map<String, dynamic> _$SetLogVerbosityLevelToJson(
+        SetLogVerbosityLevel instance) =>
+    <String, dynamic>{
+      '@type': instance.type,
+      '@extra': instance.extra,
+      'new_verbosity_level': instance.newVerbosityLevel
     };
 
 SetTdlibParameters _$SetTdlibParametersFromJson(Map<String, dynamic> json) {
@@ -100,8 +118,7 @@ Map<String, dynamic> _$GetAuthorizationStateToJson(
 
 CheckDatabaseEncryptionKey _$CheckDatabaseEncryptionKeyFromJson(
     Map<String, dynamic> json) {
-  return CheckDatabaseEncryptionKey(
-      encryptionKey: json['encryption_key'] as String)
+  return CheckDatabaseEncryptionKey(encryptionKey: json['key'] as String)
     ..type = json['@type'] as String
     ..extra = json['@extra'] as num;
 }
@@ -168,3 +185,10 @@ Map<String, dynamic> _$CheckAuthenticationPasswordToJson(
       '@extra': instance.extra,
       'password': instance.password
     };
+
+LogStream _$LogStreamFromJson(Map<String, dynamic> json) {
+  return LogStream();
+}
+
+Map<String, dynamic> _$LogStreamToJson(LogStream instance) =>
+    <String, dynamic>{};
