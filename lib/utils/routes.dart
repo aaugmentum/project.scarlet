@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vinyl/screens/album/album.dart';
-import 'package:vinyl/screens/code/code_screen.dart';
+import 'package:vinyl/screens/login/code_screen.dart';
 import 'package:vinyl/screens/home/home.dart';
-import 'package:vinyl/screens/phone_number/phone_number_screen.dart';
+import 'package:vinyl/screens/login/phone_number_screen.dart';
 import 'package:vinyl/screens/player/player.dart';
-import 'package:vinyl/screens/welcome/welcome_screen.dart';
+import 'package:vinyl/screens/login/welcome_screen.dart';
 import 'package:vinyl/utils/constants.dart';
 import 'package:vinyl/screens/splash.dart';
 
