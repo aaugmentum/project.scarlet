@@ -20,7 +20,7 @@ class App extends StatelessWidget {
       },
       child: MaterialApp(
         title: title,
-        theme: ThemeData(primarySwatch: Colors.blue),
+        theme: ThemeData(primarySwatch: Colors.grey),
         initialRoute: splashRoute,
         onGenerateRoute: Router.generateRoute,
       ),
