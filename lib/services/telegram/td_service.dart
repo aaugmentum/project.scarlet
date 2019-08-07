@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:vinyl/services/telegram/platform.dart';
 import 'package:vinyl/services/telegram/td_api.dart';
 
+TdService _service = null;
+
 class TdService {
   const TdService();
 
@@ -37,6 +39,7 @@ class TdService {
     print('Result: $result');
   }
 
+  factory TdService.getService() => _service == null ? TdService() : _service; 
 
 }
 
