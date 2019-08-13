@@ -5,7 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:vinyl/services/telegram/td_api.dart';
 import 'package:vinyl/services/telegram/td_service.dart';
 
-enum AuthorizationStatus { WaitTdLibParameters, WaitPhoneNumber, WaitCode }
+enum AuthorizationStatus { WaitTdLibParameters, WaitPhoneNumber, WaitCode, WaitPassword, Ready }
 
 class Global with ChangeNotifier {
   final TdService _service = TdService.getService();
@@ -50,6 +50,15 @@ class Global with ChangeNotifier {
     switch (state) {
       case 'authorizationStateWaitPhoneNumber':
         _authorizationStatus = AuthorizationStatus.WaitPhoneNumber;
+        break;
+      case 'authorizationStateWaitCode':
+        _authorizationStatus = AuthorizationStatus.WaitCode;
+        break;
+      case 'authorizationStateWaitPassword':
+        _authorizationStatus = AuthorizationStatus.WaitPassword;
+        break;
+      case "authorizationStateReady":
+        _authorizationStatus = AuthorizationStatus.Ready;
         break;
       default:
     }

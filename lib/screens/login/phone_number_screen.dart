@@ -58,10 +58,12 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                   onPressed: () async {
                     print("+${_controller.text}");
                     TdService service = Provider.of<TdService>(context);
-
-                    service.send(SetAuthenticationPhoneNumber(
-                        phoneNumber: "+${_controller.text}"));
-                    Navigator.pushNamed(context, codeRoute);
+                    var result = await service.send(
+                        SetAuthenticationPhoneNumber(
+                            phoneNumber: "+${_controller.text}"));
+                    if (result.data["@type"] == 'ok') {
+                      Navigator.pushNamed(context, codeRoute);
+                    }
                   },
                   child: Text('Enter'),
                 ),

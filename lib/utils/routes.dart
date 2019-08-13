@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:vinyl/screens/album/album_screen.dart';
 import 'package:vinyl/screens/login/code_screen.dart';
 import 'package:vinyl/screens/home/home_screen.dart';
+import 'package:vinyl/screens/login/password_screen.dart';
 import 'package:vinyl/screens/login/phone_number_screen.dart';
 import 'package:vinyl/screens/player/player.dart';
 import 'package:vinyl/screens/login/welcome_screen.dart';
@@ -28,6 +29,8 @@ class Router {
         return MaterialPageRoute(builder: (context) => PhoneNumberScreen());
       case codeRoute:
         return MaterialPageRoute(builder: (context) => CodeScreen());
+      case passwordRoute:
+        return MaterialPageRoute(builder: (context) => PasswordScreen());
       default:
         return MaterialPageRoute(
             builder: (context) => Scaffold(

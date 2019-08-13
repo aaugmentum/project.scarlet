@@ -5,8 +5,8 @@ import 'package:vinyl/services/telegram/td_service.dart';
 import 'package:vinyl/utils/constants.dart';
 import 'package:vinyl/utils/routes.dart';
 
-class CodeScreen extends StatelessWidget {
-  const CodeScreen({Key key}) : super(key: key);
+class PasswordScreen extends StatelessWidget {
+  const PasswordScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +24,11 @@ class CodeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                  'We sent the code to you number. Please enter it to lose everything =)'),
+                  'Looks like you have two step authentication bastard. Enter the password NOW.'),
               TextFormField(
                 controller: controller,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: 'Code'),
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(labelText: 'Password'),
               ),
               FlatButton(
                 onPressed: () {
@@ -49,21 +49,8 @@ class CodeScreen extends StatelessWidget {
                 textStyle: TextStyle(color: Colors.white, fontSize: 18),
                 constraints: BoxConstraints(minHeight: 40, minWidth: 100),
                 onPressed: () async {
-                  var result = await service
-                      .send(CheckAuthenticationCode(code: controller.text));
-                  print("First result is ${result.data["@type"]}");
-                  if (result.data["@type"] == 'ok') {
-                    result = await service.send(GetAuthorizationState());
-                    print("Second result is ${result.data["@type"]}");
-
-                    if (result.data["@type"] ==
-                        "authorizationStateWaitPassword") {
-                      Navigator.pushNamed(context, passwordRoute);
-                    } else if (result.data["@type"] ==
-                        "authorizationStateReady") {
-                      Navigator.pushNamed(context, homeRoute);
-                    }
-                  }
+                  service.send(CheckAuthenticationPassword(password: controller.text));
+                  Navigator.pushNamed(context, homeRoute);
                 },
                 child: Text('Enter'),
               ),
