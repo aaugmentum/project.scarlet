@@ -61,7 +61,7 @@ class CodeScreen extends StatelessWidget {
                       Navigator.pushNamed(context, passwordRoute);
                     } else if (result.data["@type"] ==
                         "authorizationStateReady") {
-                      Navigator.pushNamed(context, homeRoute);
+                      Navigator.pushNamedAndRemoveUntil(context, homeRoute, (Route<dynamic> route) => false);
                     }
                   }
                 },

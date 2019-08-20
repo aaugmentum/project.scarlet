@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vinyl/models/global.dart';
+import 'package:vinyl/screens/home/home_screen.dart';
+import 'package:vinyl/screens/login/welcome_screen.dart';
 import 'package:vinyl/services/telegram/td_api.dart';
 import 'package:vinyl/styles.dart';
 import 'package:vinyl/utils/constants.dart';
@@ -20,19 +22,21 @@ class _SplashScreenState extends State<SplashScreen> {
       builder: (context, value, child) {
         print("The value is ${value.authorizationStatus}");
         if (value.authorizationStatus == AuthorizationStatus.WaitPhoneNumber || value.authorizationStatus == AuthorizationStatus.WaitCode || value.authorizationStatus == AuthorizationStatus.WaitPassword) {
-          return MaterialApp(
-            title: title,
-            theme: ThemeData(primarySwatch: Colors.grey),
-            initialRoute: welcomeRoute,
-            onGenerateRoute: Router.generateRoute,
-          );
+          // return MaterialApp(
+          //   title: title,
+          //   theme: ThemeData(primarySwatch: Colors.grey),
+          //   initialRoute: welcomeRoute,
+          //   onGenerateRoute: Router.generateRoute,
+          // );
+          return WelcomeScreen();
         } else if (value.authorizationStatus == AuthorizationStatus.Ready) {
-          return MaterialApp(
-            title: title,
-            theme: ThemeData(primarySwatch: Colors.grey),
-            initialRoute: homeRoute,
-            onGenerateRoute: Router.generateRoute,
-          );
+          // return MaterialApp(
+          //   title: title,
+          //   theme: ThemeData(primarySwatch: Colors.grey),
+          //   initialRoute: homeRoute,
+          //   onGenerateRoute: Router.generateRoute,
+          // );
+          return HomeScreen();
         } else {
           return Container(
             color: appBarColor,
